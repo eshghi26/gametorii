@@ -13,8 +13,8 @@ pipeline{
     stages {
         stage('Fetch Code') {
             steps {
-                git url: 'git@github.com:eshghi26/gametori.git',
-                branch: 'main',
+                git url: 'git@github.com:eshghi26/gametorii.git',
+                branch: 'DB',
                 credentialsId: 'mygithubpk'
             }
         }
@@ -22,7 +22,7 @@ pipeline{
         stage('Build Docker Image'){
             steps {
                 script {
-                    dockerImage = docker.build( DOCKERHUB_REPO + ":V$BUILD_NUMBER", "./src/DB")
+                    dockerImage = docker.build( DOCKERHUB_REPO + ":V$BUILD_NUMBER", "./")
                 }
             }
         }
