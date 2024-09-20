@@ -8,9 +8,30 @@ pipeline{
     environment {
         DOCKERHUB_CREDENTIALS = 'dockerhubcred'
         DOCKERHUB_REPO = 'eshghi26/gametoriapi'
+        DOTNET_VERSION = '8.0'  // Specify the version of the .NET SDK you want to use
     }
 
     stages {
+        stage('Install .NET SDK') {
+            steps {
+                script {
+                    // Check if .NET SDK is installed
+                    def dotnetVersion = sh(script: 'dotnet --version', returnStatus: true)
+
+                    if (dotnetVersion != 0) {
+                        // If .NET SDK is not installed, download and install it
+                        echo 'Installing .NET SDK...'
+                        sh '''
+                        curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel ${DOTNET_VERSION}
+                        export PATH="$PATH:$HOME/.dotnet"
+                        '''
+                    } else {
+                        echo '.NET SDK is already installed.'
+                    }
+                }
+            }
+        }
+
         stage('Fetch Code') {
             steps {
                 git url: 'git@github.com:eshghi26/gametorii.git',
@@ -94,6 +115,8 @@ pipeline{
             slackSend channel: '#gametori',
                 color: COLOR_MAP[currentBuild.currentResult],
                 message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+            // Clean the workspace to remove any temporary files
+            cleanWs()
         }
     }
 
