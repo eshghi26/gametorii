@@ -13,16 +13,52 @@ pipeline{
     stages {
         stage('Fetch Code') {
             steps {
-                git url: 'git@github.com:eshghi26/gametori.git',
-                branch: 'main',
+                git url: 'git@github.com:eshghi26/gametorii.git',
+                branch: 'GameApi',
                 credentialsId: 'mygithubpk'
+            }
+        }
+
+        stage('Restore Dependencies') {
+            steps {
+                // Restore the project dependencies
+                sh 'dotnet restore'
+            }
+        }
+
+        stage('build') {
+            steps {
+                // Build the API project
+                sh 'dotnet build --configuration Release'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                // Run unit tests
+                sh 'dotnet test --no-build --verbosity normal'
+            }
+        }
+
+        stage('Integration Tests') {
+            steps {
+                // Optionally run integration tests (if you have separate test projects for integration tests)
+                // sh 'dotnet test ./Tests/IntegrationTests/IntegrationTests.csproj --no-build --verbosity normal'
+                echo 'Integration tests step (implement if necessary)'
+            }
+        }
+
+        stage('Publish') {
+            steps {
+                // Publish the API for deployment
+                sh 'dotnet publish -c Release -o ./publish'
             }
         }
 
         stage('Build Docker Image'){
             steps {
                 script {
-                    dockerImage = docker.build( DOCKERHUB_REPO + ":V$BUILD_NUMBER", "./src/GameApi")
+                    dockerImage = docker.build( DOCKERHUB_REPO + ":V$BUILD_NUMBER", "./")
                 }
             }
         }
@@ -47,7 +83,7 @@ pipeline{
         stage('Deploy to Kubernetes') {
             agent {label 'KOPS'}
                 steps {
-                    sh "sudo helm upgrade --install --force db-stack helm/dbcharts --namespace gametorispace"
+                    sh "sudo helm upgrade --install --force api-stack helm/apicharts --namespace gametorispace"
                 }
         }
     }
