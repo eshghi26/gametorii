@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gametoripanelingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: panelgametori.freehawk.site
+    http:
+      paths:
+      - path: /panel
+        pathType: Prefix
+        backend:
+          service:
+            name: gametoripanelservice
+            port:
+              number: 4201
