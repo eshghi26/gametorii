@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gametoriapideploy
+  labels:
+    app: gametoriapideploy
+spec:
+  selector:
+    matchLabels:
+      app: gametoriapipod
+  replicas: 2
+  template: # Pod definition
+    metadata:
+      labels:
+        app: gametorapipod
+    spec:
+      containers:
+        - name: gametoriapicontainer
+          image: eshghi26/gametoriapi:latest
+          imagePullPolicy: Always
+          ports:
+            - name: apiport
+              containerPort: 5169
+      nodeSelector:
+        # Run this command for each worker kubectl label nodes worker01 disktype=ssd
+        disktype: ssd
