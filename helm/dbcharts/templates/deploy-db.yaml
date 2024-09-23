@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gametoridbdeploy
+  labels:
+    app: gametoridbdeploy
+spec:
+  selector:
+    matchLabels:
+      app: gametoridbpod
+  replicas: 2
+  template: # Pod definition
+    metadata:
+      labels:
+        app: gametoridbpod
+    spec:
+      containers:
+        - name: gametoridbcontainer
+          image: eshghi26/gametoridb:latest
+          imagePullPolicy: Always
+          ports:
+            - name: dbport
+              containerPort: 5432
+          # If you did not specified username or password in the dockerfile, you can do it here
+#          env: 
+#            - name: MYSQL_ROOT_PASSWORD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: secret-db
+#                  key: db-pass
+      nodeSelector:
+        # Run this command for each worker kubectl label nodes worker01 disktype=ssd
+        disktype: ssd
