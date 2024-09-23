@@ -15,7 +15,7 @@ pipeline{
             steps {
                 git url: 'git@github.com:eshghi26/gametorii.git',
                 branch: 'DB',
-                credentialsId: 'mygithubpk'
+                credentialsId: 'mygitubpk'
             }
         }
 
