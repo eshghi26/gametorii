@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gametoridbservice
+spec:
+  selector:
+    app: gametoridbpod
+  # type: NodePort # For NodePort Service
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 5432 # App will be accessable on the port 5432 of External IP
+      targetPort: 5432
+      # nodePort: 30001 # App will be accessable from http://Master_Node_IP:300001 for NodePort Service
