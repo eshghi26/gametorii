@@ -21,6 +21,13 @@ spec:
           ports:
             - name:frontport
               containerPort: 80
+      initContainers:
+      - name: init-api
+        image: busybox
+        command: ['sh', '-c', 'until nslookup gametoriapiservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for API; sleep 2; done;']
+      - name: init-db
+        image: busybox
+        command: ['sh', '-c', 'until nslookup gametoridbservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for DB; sleep 2; done;']
       nodeSelector:
         # Run this command for each worker kubectl label nodes worker01 disktype=ssd
         disktype: ssd
