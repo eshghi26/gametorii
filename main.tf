@@ -3,13 +3,10 @@ provider "google" {
   region  = var.region
 }
 
-module "gke_cluster" {
-  source = "./gc_module"
-
-  cluster_name   = var.cluster_name
-  location       = var.location
-  node_pool_name = var.node_pool_name
-  node_count     = var.node_count
-  machine_type   = var.machine_type
-  node_locations = var.node_locations
-}
+# No need for a module call now
+# The GKE cluster and node pools are directly defined in gke_resources.tf
+# For executing
+# terraform init
+# terraform validate
+# terraform plan -out=tfplan
+# terraform apply "tfplan"
