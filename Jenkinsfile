@@ -24,6 +24,15 @@ pipeline{
                         sh '''
                         curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel ${DOTNET_VERSION}
                         export PATH="$PATH:$HOME/.dotnet"
+                        wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+                        dpkg -i packages-microsoft-prod.deb
+                        rm packages-microsoft-prod.deb
+                        sudo apt-get update && \
+                          sudo apt-get install -y dotnet-sdk-8.0
+                        sudo apt-get update && \
+                          sudo apt-get install -y aspnetcore-runtime-8.0
+                        sudo apt-get install -y dotnet-runtime-8.0
+                        sudo apt install zlib1g
                         '''
                     } else {
                         echo '.NET SDK is already installed.'
@@ -36,7 +45,7 @@ pipeline{
             steps {
                 git url: 'git@github.com:eshghi26/gametorii.git',
                 branch: 'GameApi',
-                credentialsId: 'mygithubpk'
+                credentialsId: 'mygitubpk'
             }
         }
 
