@@ -21,11 +21,23 @@ pipeline{
 
         stage('Install Node.js') {
             steps {
-                // Install Node.js using the NodeJS plugin in Jenkins (assuming it's installed)
-                // You may also install it manually on the agent machine
                 script {
-                    def nodejs = tool name: 'NodeJS', type: 'NodeJSInstallation'
-                    env.PATH = "${nodejs}/bin:${env.PATH}"
+                    // Check if npm is installed
+                    def npmVersion = sh(script: 'npm --version', returnStatus: true)
+
+                    if (npmVersion != 0) {
+                        // If npm is not installed, download and install it
+                        echo 'Installing NodeJS and npm...'
+                        sh '''
+                        sudo apt update -y
+                        sudo apt install nodejs -y
+                        node -v
+                        sudo apt install npm -y
+                        npm --version
+                        '''
+                    } else {
+                        echo 'NodeJS and npm are already installed.'
+                    }
                 }
             }
         }
