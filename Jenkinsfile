@@ -30,10 +30,13 @@ pipeline{
                         echo 'Installing NodeJS and npm...'
                         sh '''
                         sudo apt update -y
-                        sudo apt install nodejs -y
+                        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+                        sudo apt-get install -y nodejs
                         node -v
-                        sudo apt install npm -y
                         npm --version
+                        sudo npm install -g npm@10
+                        node -v
+                        npm -v
                         '''
                     } else {
                         echo 'NodeJS and npm are already installed.'
