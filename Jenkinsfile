@@ -62,7 +62,7 @@ pipeline{
         stage('Build Frontend') {
             steps {
                 // Build the production version of the Angular app
-                sh 'npm run build -- --prod'
+                sh 'npm run build -- --configuration production'
             }
         }
 
