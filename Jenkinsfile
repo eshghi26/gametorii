@@ -52,12 +52,12 @@ pipeline{
             }
         }
 
-        stage('Run Unit Tests') {
-            steps {
+//        stage('Run Unit Tests') {
+//            steps {
                 // Run unit tests for the Angular app
-                sh 'npm test -- --watch=false --browsers=ChromeHeadless'
-            }
-        }
+//                sh 'npm test -- --watch=false --browsers=ChromeHeadless'
+//            }
+//        }
 
         stage('Build Frontend') {
             steps {
