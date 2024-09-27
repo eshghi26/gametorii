@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GameService {
-  private apiUrl = 'http://apigametori.freehawk.site:5169/api/game';
+  private apiUrl = 'http://apigametori.freehawk.site/api/game';
 
   constructor(private http: HttpClient) { }
 
