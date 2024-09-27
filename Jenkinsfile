@@ -55,7 +55,7 @@ pipeline{
         stage('Run Unit Tests') {
             steps {
                 // Run unit tests for the Angular app
-                sh 'npm test -- --watch=false --code-coverage'
+                sh 'npm test -- --watch=false --browsers=ChromeHeadless'
             }
         }
 
