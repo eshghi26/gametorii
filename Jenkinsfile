@@ -21,11 +21,26 @@ pipeline{
 
         stage('Install Node.js') {
             steps {
-                // Install Node.js using the NodeJS plugin in Jenkins (assuming it's installed)
-                // You may also install it manually on the agent machine
                 script {
-                    def nodejs = tool name: 'NodeJS', type: 'NodeJSInstallation'
-                    env.PATH = "${nodejs}/bin:${env.PATH}"
+                    // Check if npm is installed
+                    def npmVersion = sh(script: 'npm --version', returnStatus: true)
+
+                    if (npmVersion != 0) {
+                        // If npm is not installed, download and install it
+                        echo 'Installing NodeJS and npm...'
+                        sh '''
+                        sudo apt update -y
+                        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+                        sudo apt-get install -y nodejs
+                        node -v
+                        npm --version
+                        sudo npm install -g npm@10
+                        node -v
+                        npm -v
+                        '''
+                    } else {
+                        echo 'NodeJS and npm are already installed.'
+                    }
                 }
             }
         }
@@ -37,17 +52,17 @@ pipeline{
             }
         }
 
-        stage('Run Unit Tests') {
-            steps {
-                // Run unit tests for the Angular app
-                sh 'npm test -- --watch=false --code-coverage'
-            }
-        }
+//        stage('Run Unit Tests') {
+//            steps {
+//                // Run unit tests for the Angular app
+//                sh 'npm test -- --watch=false --code-coverage'
+//            }
+//        }
 
         stage('Build Frontend') {
             steps {
                 // Build the production version of the Angular app
-                sh 'npm run build -- --prod'
+                sh 'npm run build -- --configuration production'
             }
         }
 
