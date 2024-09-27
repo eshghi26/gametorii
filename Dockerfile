@@ -12,5 +12,9 @@ ENV POSTGRES_PASSWORD=gamepassword
 # Copy custom configuration files
 COPY ./postgresql.conf /etc/postgresql/13/main/postgresql.conf
 COPY ./pg_hba.conf /etc/postgresql/13/main/pg_hba.conf
+
+# Copy the SQL script to the container
+COPY ./init.sql /docker-entrypoint-initdb.d/
+
 # Expose the PostgreSQL port
 EXPOSE 5432
