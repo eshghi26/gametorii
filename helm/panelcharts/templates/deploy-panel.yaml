@@ -19,7 +19,7 @@ spec:
           image: eshghi26/gametoripanel:latest
           imagePullPolicy: Always
           ports:
-            - name:panelport
+            - name: panelport
               containerPort: 80
       initContainers:
       - name: init-api
