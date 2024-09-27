@@ -19,7 +19,7 @@ spec:
           image: eshghi26/gametorifront:latest
           imagePullPolicy: Always
           ports:
-            - name:frontport
+            - name: frontport
               containerPort: 80
       initContainers:
       - name: init-api
