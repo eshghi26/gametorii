@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ConfigService {
-  private apiUrl = 'http://gametoriapiservice:5169/api/admin';
+  private apiUrl = 'http://apigametori.freehawk.site:5169/api/admin';
 
   constructor(private http: HttpClient) { }
 
