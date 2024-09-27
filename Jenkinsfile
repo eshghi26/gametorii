@@ -47,7 +47,7 @@ pipeline{
         stage('Deploy to Kubernetes') {
             agent {label 'KOPS'}
                 steps {
-                    sh "sudo helm upgrade --install --force postgres-stack helm/dbcharts --namespace gametorispace"
+                    sh "sudo helm upgrade --install --force postgresql-stack helm/dbcharts --namespace gametorispace"
                 }
         }
     }
