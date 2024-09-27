@@ -94,7 +94,7 @@ pipeline{
         stage('Deploy to Kubernetes') {
             agent {label 'KOPS'}
                 steps {
-                    sh "sudo helm upgrade --install --force front-stack helm/frontcharts --namespace gametorispace"
+                    sh "sudo helm upgrade --install --force frontend-stack helm/frontcharts --namespace gametorispace"
                 }
         }
     }
