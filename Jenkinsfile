@@ -113,7 +113,7 @@ pipeline{
         stage('Deploy to Kubernetes') {
             agent {label 'KOPS'}
                 steps {
-                    sh "sudo helm upgrade --install --force api-stack helm/apicharts --namespace gametorispace"
+                    sh "sudo helm upgrade --install --force api-stack helm/apicharts --namespace gametorispace --recreate-pods"
                 }
         }
     }
